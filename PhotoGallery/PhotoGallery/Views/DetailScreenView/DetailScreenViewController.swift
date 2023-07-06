@@ -1,4 +1,5 @@
 import UIKit
+import PureLayout
 import RxSwift
 import RxCocoa
 
@@ -6,7 +7,8 @@ class DetailScreenViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: DetailScreenViewModel
     
-    private let tableView = UITableView()
+    private let photoImageView = UIImageView()
+    private let commentsTableView = UITableView()
     
     init(viewModel: DetailScreenViewModel) {
         self.viewModel = viewModel
@@ -22,21 +24,49 @@ class DetailScreenViewController: UIViewController {
         
         setupUI()
         bindViewModel()
+        loadPhoto()
     }
     
     private func setupUI() {
-        tableView.frame = view.bounds
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        commentsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CommentCell")
         
-        view.addSubview(tableView)
+        view.backgroundColor = .white
+        
+        // Configure photo image view
+        photoImageView.contentMode = .scaleAspectFit
+        photoImageView.backgroundColor = .lightGray
+        
+        view.addSubview(photoImageView)
+        
+        // Constraints for photo image view
+        photoImageView.autoPinEdge(toSuperviewSafeArea: .top)
+        photoImageView.autoPinEdge(toSuperviewEdge: .leading)
+        photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
+        photoImageView.autoSetDimension(.height, toSize: 200)
+        
+//        commentsTableView.backgroundColor = .clear
+        
+        view.addSubview(commentsTableView)
+        
+        // Constraints for comments table view
+        commentsTableView.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: 16)
+        commentsTableView.autoPinEdge(toSuperviewEdge: .leading)
+        commentsTableView.autoPinEdge(toSuperviewEdge: .trailing)
+        commentsTableView.autoPinEdge(toSuperviewSafeArea: .bottom)
+        
+//        commentsTableView.isScrollEnabled = false
     }
     
     private func bindViewModel() {
         viewModel.comments
-            .bind(to: tableView.rx.items(cellIdentifier: "CommentCell")) { index, comment, cell in
+            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { _, comment, cell in
                 cell.textLabel?.text = comment
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func loadPhoto() {
+        let photoImage = UIImage(named: "sample-photo")
+        photoImageView.image = photoImage
     }
 }
