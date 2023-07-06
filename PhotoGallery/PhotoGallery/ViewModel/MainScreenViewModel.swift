@@ -1,6 +1,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Alamofire
 
 class MainScreenViewModel {
     private let disposeBag = DisposeBag()
@@ -11,17 +12,19 @@ class MainScreenViewModel {
         return photosSubject.asObservable()
     }
     
-    init() {
-        fetchPhotos()
-    }
-    
-    private func fetchPhotos() {
-        let photos = [
-            Photo(title: "Photo 1", thumbnail: "thumbnail_1.jpg"),
-            Photo(title: "Photo 2", thumbnail: "thumbnail_2.jpg"),
-            Photo(title: "Photo 3", thumbnail: "thumbnail_3.jpg")
-        ]
+    func fetchPhotos() {
+        let urlString = "https://jsonplaceholder.typicode.com/photos"
         
-        photosSubject.onNext(photos)
+        AF.request(urlString).responseData { [weak self] response in
+            guard let data = response.data else { return }
+            
+            do {
+                let decoder = JSONDecoder()
+                let photos = try decoder.decode([Photo].self, from: data)
+                self?.photosSubject.onNext(photos)
+            } catch {
+                print("Error decoding photos: \(error)")
+            }
+        }
     }
 }
