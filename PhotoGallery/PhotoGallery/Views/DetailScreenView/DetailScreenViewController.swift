@@ -2,6 +2,7 @@ import UIKit
 import PureLayout
 import RxSwift
 import RxCocoa
+import Alamofire
 
 class DetailScreenViewController: UIViewController {
     private let disposeBag = DisposeBag()
@@ -60,13 +61,16 @@ class DetailScreenViewController: UIViewController {
     private func bindViewModel() {
         viewModel.comments
             .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { _, comment, cell in
-                cell.textLabel?.text = comment
+                cell.textLabel?.text = comment.body
             }
             .disposed(by: disposeBag)
     }
     
     private func loadPhoto() {
-        let photoImage = UIImage(named: "sample-photo")
-        photoImageView.image = photoImage
+        let photoUrl = viewModel.photo.url
+        
+        if let url = URL(string: photoUrl) {
+            self.photoImageView.af.setImage(withURL: url)
+        }
     }
 }

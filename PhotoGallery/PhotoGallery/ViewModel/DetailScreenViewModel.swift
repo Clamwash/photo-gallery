@@ -4,26 +4,29 @@ import RxCocoa
 
 class DetailScreenViewModel {
     let photo: Photo
+    private let networkingService: NetworkingService
     
-    private let commentsSubject = BehaviorSubject<[String]>(value: [])
+    private let commentsSubject = PublishSubject<[Comment]>()
     
-    var comments: Observable<[String]> {
+    var comments: Observable<[Comment]> {
         return commentsSubject.asObservable()
     }
     
-    init(photo: Photo) {
+    init(photo: Photo, networkingService: NetworkingService) {
         self.photo = photo
+        self.networkingService = networkingService
         
-        fetchComments()
+        fetchComments(for: photo.id)
     }
     
-    private func fetchComments() {
-        let comments = [
-            "Comment 1",
-            "Comment 2",
-            "Comment 3"
-        ]
-        
-        commentsSubject.onNext(comments)
+    func fetchComments(for photoId: Int) {
+        networkingService.fetchComments(for: photoId) { [weak self] result in
+            switch result {
+            case .success(let comments):
+                self?.commentsSubject.onNext(comments)
+            case .failure(let error):
+                print("Error fetching comments: \(error)")
+            }
+        }
     }
 }
