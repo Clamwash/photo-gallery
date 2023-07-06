@@ -6,9 +6,22 @@ import AlamofireImage
 
 class MainScreenViewController: UIViewController {
     private let disposeBag = DisposeBag()
-    private let viewModel = MainScreenViewModel()
+    private let viewModel: MainScreenViewModel
+    private let networkingService: NetworkingService
     
     private let tableView = UITableView()
+    
+    init() {
+        self.networkingService = NetworkingService.shared
+        let viewModel = MainScreenViewModel(networkingService: networkingService)
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +61,9 @@ class MainScreenViewController: UIViewController {
     }
     
     private func navigateToDetailScreen(photo: Photo) {
-        let detailViewModel = DetailScreenViewModel(photo: photo)
+        let detailViewModel = DetailScreenViewModel(photo: photo, networkingService: networkingService)
         let detailViewController = DetailScreenViewController(viewModel: detailViewModel)
+        
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
