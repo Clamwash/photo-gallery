@@ -8,6 +8,7 @@ class DetailScreenViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: DetailScreenViewModel
     
+    private let titleLabel = UILabel()
     private let photoImageView = UIImageView()
     private let commentsTableView = UITableView()
     
@@ -30,8 +31,15 @@ class DetailScreenViewController: UIViewController {
     
     private func setupUI() {
         commentsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        titleLabel.text = viewModel.photo.title
         
         view.backgroundColor = .white
+        
+        // Configure photo title label
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        view.addSubview(titleLabel)
         
         // Configure photo image view
         photoImageView.contentMode = .scaleAspectFit
@@ -39,8 +47,13 @@ class DetailScreenViewController: UIViewController {
         
         view.addSubview(photoImageView)
         
+        // Constraints for title label
+        titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: 16)
+        titleLabel.autoPinEdge(toSuperviewEdge: .leading)
+        titleLabel.autoPinEdge(toSuperviewEdge: .trailing)
+        
         // Constraints for photo image view
-        photoImageView.autoPinEdge(toSuperviewSafeArea: .top)
+        photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 16)
         photoImageView.autoPinEdge(toSuperviewEdge: .leading)
         photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
         photoImageView.autoSetDimension(.height, toSize: 200)
@@ -60,6 +73,7 @@ class DetailScreenViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.comments
+            .map { Array($0.prefix(20)) }
             .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { _, comment, cell in
                 cell.textLabel?.text = comment.body
             }
