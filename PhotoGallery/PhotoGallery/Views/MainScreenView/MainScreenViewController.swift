@@ -11,6 +11,7 @@ class MainScreenViewController: UIViewController {
     
     private let tableView = UITableView()
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
+    private let refreshControl = UIRefreshControl()
     
     init() {
         self.networkingService = NetworkingService.shared
@@ -43,6 +44,8 @@ class MainScreenViewController: UIViewController {
         activityIndicatorView.hidesWhenStopped = true
         view.addSubview(activityIndicatorView)
         activityIndicatorView.autoCenterInSuperview()
+        
+        tableView.refreshControl = refreshControl
     }
     
     private func bindViewModel() {
@@ -66,6 +69,22 @@ class MainScreenViewController: UIViewController {
         
         viewModel.isLoading
             .bind(to: activityIndicatorView.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        refreshControl.rx.controlEvent(.valueChanged)
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel.fetchPhotos()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.refreshControl.beginRefreshing()
+                } else {
+                    self?.refreshControl.endRefreshing()
+                }
+            })
             .disposed(by: disposeBag)
     }
     
