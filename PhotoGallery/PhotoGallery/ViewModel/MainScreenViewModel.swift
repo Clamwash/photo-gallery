@@ -6,22 +6,36 @@ class MainScreenViewModel {
     private let disposeBag = DisposeBag()
     
     private let photosSubject = BehaviorSubject<[Photo]>(value: [])
+    private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
+
     
     var photos: Observable<[Photo]> {
         return photosSubject.asObservable()
     }
     
-    init() {
-        fetchPhotos()
+
+    var isLoading: Observable<Bool> {
+        return isLoadingRelay.asObservable()
     }
     
-    private func fetchPhotos() {
-        let photos = [
-            Photo(title: "Photo 1", thumbnail: "thumbnail_1.jpg"),
-            Photo(title: "Photo 2", thumbnail: "thumbnail_2.jpg"),
-            Photo(title: "Photo 3", thumbnail: "thumbnail_3.jpg")
-        ]
+    init(networkingService: NetworkingService) {
+        self.networkingService = networkingService
+    }
+    
+    func fetchPhotos() {
+        isLoadingRelay.accept(true)
         
-        photosSubject.onNext(photos)
+        networkingService.fetchPhotos { [weak self] result in
+            defer {
+                self?.isLoadingRelay.accept(false)
+            }
+            
+            switch result {
+            case .success(let photos):
+                self?.photosSubject.onNext(photos)
+            case .failure(let error):
+                print("Error fetching photos: \(error)")
+            }
+        }
     }
 }

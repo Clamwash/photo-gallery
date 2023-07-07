@@ -15,6 +15,8 @@
 		6A818C6A2A56ABF800561F01 /* PhotoGalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A818C692A56ABF800561F01 /* PhotoGalleryModel.swift */; };
 		6A818C6C2A56B6E600561F01 /* DetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A818C6B2A56B6E600561F01 /* DetailScreenViewModel.swift */; };
 		6A818C6F2A56B8DD00561F01 /* DetailScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A818C6E2A56B8DD00561F01 /* DetailScreenViewController.swift */; };
+		6A8CAB302A56E042000881DB /* MainScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8CAB2F2A56E042000881DB /* MainScreenTableViewCell.swift */; };
+		6A8CAB322A572C05000881DB /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8CAB312A572C05000881DB /* NetworkingService.swift */; };
 		8D8F43D409B5BDFBAD59B5BD /* Pods_PhotoGallery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F088190DD8DDD30741B7972 /* Pods_PhotoGallery.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		6A818C692A56ABF800561F01 /* PhotoGalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalleryModel.swift; sourceTree = "<group>"; };
 		6A818C6B2A56B6E600561F01 /* DetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenViewModel.swift; sourceTree = "<group>"; };
 		6A818C6E2A56B8DD00561F01 /* DetailScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenViewController.swift; sourceTree = "<group>"; };
+		6A8CAB2F2A56E042000881DB /* MainScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTableViewCell.swift; sourceTree = "<group>"; };
+		6A8CAB312A572C05000881DB /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		6C5D511311085261D52AF3D5 /* Pods-PhotoGallery.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoGallery.release.xcconfig"; path = "Target Support Files/Pods-PhotoGallery/Pods-PhotoGallery.release.xcconfig"; sourceTree = "<group>"; };
 		8F088190DD8DDD30741B7972 /* Pods_PhotoGallery.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoGallery.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,6 +94,7 @@
 		6A818C612A56A71C00561F01 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				6A8CAB312A572C05000881DB /* NetworkingService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -130,10 +135,27 @@
 		6A818C6D2A56B8B900561F01 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A1C56432A556E22005EA8E6 /* MainScreenViewController.swift */,
-				6A818C6E2A56B8DD00561F01 /* DetailScreenViewController.swift */,
+				6A8CAB2D2A56DFEC000881DB /* MainScreenView */,
+				6A8CAB2E2A56DFFE000881DB /* DetailScreenView */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		6A8CAB2D2A56DFEC000881DB /* MainScreenView */ = {
+			isa = PBXGroup;
+			children = (
+				6A1C56432A556E22005EA8E6 /* MainScreenViewController.swift */,
+				6A8CAB2F2A56E042000881DB /* MainScreenTableViewCell.swift */,
+			);
+			path = MainScreenView;
+			sourceTree = "<group>";
+		};
+		6A8CAB2E2A56DFFE000881DB /* DetailScreenView */ = {
+			isa = PBXGroup;
+			children = (
+				6A818C6E2A56B8DD00561F01 /* DetailScreenViewController.swift */,
+			);
+			path = DetailScreenView;
 			sourceTree = "<group>";
 		};
 		D30AA235FA88FFF726516EAC /* Pods */ = {
@@ -262,9 +284,11 @@
 				6A818C6F2A56B8DD00561F01 /* DetailScreenViewController.swift in Sources */,
 				6A1C56442A556E22005EA8E6 /* MainScreenViewController.swift in Sources */,
 				6A818C6A2A56ABF800561F01 /* PhotoGalleryModel.swift in Sources */,
+				6A8CAB322A572C05000881DB /* NetworkingService.swift in Sources */,
 				6A1C56402A556E22005EA8E6 /* AppDelegate.swift in Sources */,
 				6A818C682A56AB1C00561F01 /* MainScreenViewModel.swift in Sources */,
 				6A818C6C2A56B6E600561F01 /* DetailScreenViewModel.swift in Sources */,
+				6A8CAB302A56E042000881DB /* MainScreenTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

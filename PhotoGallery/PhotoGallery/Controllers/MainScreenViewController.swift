@@ -7,6 +7,7 @@ class MainScreenViewController: UIViewController {
     private let viewModel = MainScreenViewModel()
     
     private let tableView = UITableView()
+    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,9 +19,12 @@ class MainScreenViewController: UIViewController {
     private func setupUI() {
         tableView.frame = view.bounds
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        
+        tableView.register(MainScreenTableViewCell.self, forCellReuseIdentifier: "Cell")
         view.addSubview(tableView)
+        
+        activityIndicatorView.hidesWhenStopped = true
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.autoCenterInSuperview()
     }
     
     private func bindViewModel() {
@@ -34,6 +38,10 @@ class MainScreenViewController: UIViewController {
             .subscribe(onNext: { [weak self] photo in
                 self?.navigateToDetailScreen(photo: photo)
             })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .bind(to: activityIndicatorView.rx.isAnimating)
             .disposed(by: disposeBag)
     }
     
