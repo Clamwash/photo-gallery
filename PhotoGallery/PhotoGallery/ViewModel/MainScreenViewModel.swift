@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 
 class MainScreenViewModel {
-    private let disposeBag = DisposeBag()
+    private let networkingService: NetworkingService
     
     private let photosSubject = BehaviorSubject<[Photo]>(value: [])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
@@ -13,7 +13,6 @@ class MainScreenViewModel {
         return photosSubject.asObservable()
     }
     
-
     var isLoading: Observable<Bool> {
         return isLoadingRelay.asObservable()
     }

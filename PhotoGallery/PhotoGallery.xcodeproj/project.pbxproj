@@ -80,12 +80,12 @@
 			isa = PBXGroup;
 			children = (
 				6A818C662A56A77500561F01 /* Recources */,
-				6A818C652A56A76300561F01 /* View */,
+				6A1C564A2A556E22005EA8E6 /* LaunchScreen.storyboard */,
 				6A818C642A56A74D00561F01 /* ViewModel */,
 				6A818C622A56A73A00561F01 /* Model */,
 				6A818C612A56A71C00561F01 /* Networking */,
 				6A1C563F2A556E22005EA8E6 /* AppDelegate.swift */,
-				6A818C6D2A56B8B900561F01 /* Controllers */,
+				6A818C6D2A56B8B900561F01 /* Views */,
 				6A1C564D2A556E22005EA8E6 /* Info.plist */,
 			);
 			path = PhotoGallery;
@@ -116,14 +116,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		6A818C652A56A76300561F01 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				6A1C564A2A556E22005EA8E6 /* LaunchScreen.storyboard */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		6A818C662A56A77500561F01 /* Recources */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,13 +124,13 @@
 			path = Recources;
 			sourceTree = "<group>";
 		};
-		6A818C6D2A56B8B900561F01 /* Controllers */ = {
+		6A818C6D2A56B8B900561F01 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				6A8CAB2D2A56DFEC000881DB /* MainScreenView */,
 				6A8CAB2E2A56DFFE000881DB /* DetailScreenView */,
 			);
-			path = Controllers;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		6A8CAB2D2A56DFEC000881DB /* MainScreenView */ = {

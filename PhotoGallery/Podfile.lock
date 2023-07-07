@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (5.7.1)
+  - AlamofireImage (4.2.0):
+    - Alamofire (~> 5.4)
   - PureLayout (3.1.9)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
@@ -10,6 +12,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AlamofireImage
   - PureLayout
   - RxCocoa
   - RxSwift
@@ -17,6 +20,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AlamofireImage
     - PureLayout
     - RxCocoa
     - RxRelay
@@ -24,11 +28,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  AlamofireImage: 34a2d90b0e5fe6a5605f85ae4b7b01e784c60192
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
 
-PODFILE CHECKSUM: cf0d9d8455400d63e3aeb5b3294e363cdb32bc2d
+PODFILE CHECKSUM: 80f6a97f27ad87db88ad3766beb12bed18d21de0
 
 COCOAPODS: 1.12.1

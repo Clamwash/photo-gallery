@@ -8,6 +8,7 @@ target 'PhotoGallery' do
   # Pods for PhotoGallery
 
    pod 'Alamofire'
+   pod 'AlamofireImage'
    pod 'PureLayout'
    pod 'RxSwift'
    pod 'RxCocoa'
