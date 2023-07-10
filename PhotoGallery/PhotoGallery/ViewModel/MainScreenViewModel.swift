@@ -8,7 +8,6 @@ class MainScreenViewModel {
     private let photosSubject = BehaviorSubject<[Photo]>(value: [])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
 
-    
     var photos: Observable<[Photo]> {
         return photosSubject.asObservable()
     }
@@ -25,16 +24,14 @@ class MainScreenViewModel {
         isLoadingRelay.accept(true)
         
         networkingService.fetchPhotos { [weak self] result in
-            defer {
-                self?.isLoadingRelay.accept(false)
-            }
-            
             switch result {
             case .success(let photos):
                 self?.photosSubject.onNext(photos)
             case .failure(let error):
                 print("Error fetching photos: \(error)")
             }
+            
+            self?.isLoadingRelay.accept(false)
         }
     }
 }

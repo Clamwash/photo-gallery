@@ -12,6 +12,9 @@ class DetailScreenViewController: UIViewController {
     private let photoImageView = UIImageView()
     private let commentsTableView = UITableView()
     
+    private let activityIndicatorView = UIActivityIndicatorView(style: .large)
+    private let refreshControl = UIRefreshControl()
+    
     init(viewModel: DetailScreenViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -67,8 +70,12 @@ class DetailScreenViewController: UIViewController {
         commentsTableView.autoPinEdge(toSuperviewEdge: .leading)
         commentsTableView.autoPinEdge(toSuperviewEdge: .trailing)
         commentsTableView.autoPinEdge(toSuperviewSafeArea: .bottom)
+                
+        activityIndicatorView.hidesWhenStopped = true
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.autoCenterInSuperview()
         
-//        commentsTableView.isScrollEnabled = false
+        commentsTableView.refreshControl = refreshControl
     }
     
     private func bindViewModel() {
@@ -77,6 +84,22 @@ class DetailScreenViewController: UIViewController {
             .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { _, comment, cell in
                 cell.textLabel?.text = comment.body
             }
+            .disposed(by: disposeBag)
+
+        refreshControl.rx.controlEvent(.valueChanged)
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel.fetchComments()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.refreshControl.beginRefreshing()
+                } else {
+                    self?.refreshControl.endRefreshing()
+                }
+            })
             .disposed(by: disposeBag)
     }
     
