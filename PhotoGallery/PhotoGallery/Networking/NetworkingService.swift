@@ -3,9 +3,7 @@ import Alamofire
 
 class NetworkingService {
     static let shared = NetworkingService()
-    
-    private init() {}
-    
+        
     func fetchPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
         let urlString = "https://jsonplaceholder.typicode.com/photos"
         
