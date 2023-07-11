@@ -86,6 +86,12 @@ class MainScreenViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        viewModel.alert
+            .subscribe(onNext: { [weak self] message in
+                self?.showAlert(message: message)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func navigateToDetailScreen(photo: Photo) {
@@ -93,5 +99,14 @@ class MainScreenViewController: UIViewController {
         let detailViewController = DetailScreenViewController(viewModel: detailViewModel)
         
         navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
+
+extension MainScreenViewController {
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }

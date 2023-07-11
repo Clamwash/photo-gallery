@@ -7,6 +7,7 @@ class MainScreenViewModel {
     
     private let photosSubject = BehaviorSubject<[Photo]>(value: [])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
+    private let alertRelay = PublishRelay<String>()
 
     var photos: Observable<[Photo]> {
         return photosSubject.asObservable()
@@ -14,6 +15,10 @@ class MainScreenViewModel {
     
     var isLoading: Observable<Bool> {
         return isLoadingRelay.asObservable()
+    }
+    
+    var alert: Observable<String> {
+        return alertRelay.asObservable()
     }
     
     init(networkingService: NetworkingService) {
@@ -28,6 +33,8 @@ class MainScreenViewModel {
             case .success(let photos):
                 self?.photosSubject.onNext(photos)
             case .failure(let error):
+                let errorMessage = "Failed to fetch photos. Please check your internet connection."
+                self?.alertRelay.accept(errorMessage)
                 print("Error fetching photos: \(error)")
             }
             
