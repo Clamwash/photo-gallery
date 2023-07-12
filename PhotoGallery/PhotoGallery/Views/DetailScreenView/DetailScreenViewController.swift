@@ -33,7 +33,7 @@ class DetailScreenViewController: UIViewController {
     }
     
     private func setupUI() {
-        commentsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        commentsTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
         titleLabel.text = viewModel.photo.title
         
         view.backgroundColor = .white
@@ -81,8 +81,9 @@ class DetailScreenViewController: UIViewController {
     private func bindViewModel() {
         viewModel.comments
             .map { Array($0.prefix(20)) }
-            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { _, comment, cell in
-                cell.textLabel?.text = comment.body
+            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { index, comment, cell in
+                guard let cell = cell as? CommentTableViewCell else { return }
+                cell.configure(with: comment)
             }
             .disposed(by: disposeBag)
 
