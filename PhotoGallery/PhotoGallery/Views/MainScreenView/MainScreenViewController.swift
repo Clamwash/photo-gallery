@@ -36,7 +36,6 @@ class MainScreenViewController: UIViewController {
     
     private func setupUI() {
         tableView.frame = view.bounds
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(MainScreenTableViewCell.self, forCellReuseIdentifier: "Cell")
 
         view.addSubview(tableView)

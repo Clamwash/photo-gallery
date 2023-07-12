@@ -23,15 +23,20 @@ class MainScreenTableViewCell: UITableViewCell {
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.layer.cornerRadius = Constants.CGFloats.small
         titleLabel.numberOfLines = 0
-        
+
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
-        
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .top, withInset: Constants.CGFloats.small)
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+
         thumbnailImageView.autoSetDimensions(to: imageSize)
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .bottom, withInset: Constants.CGFloats.small)
-        
+
+        let topConstraint = thumbnailImageView.autoPinEdge(toSuperviewEdge: .top, withInset: Constants.CGFloats.small)
+        let bottomConstraint = thumbnailImageView.autoPinEdge(toSuperviewEdge: .bottom, withInset: Constants.CGFloats.small)
+
+        topConstraint.priority = UILayoutPriority(UILayoutPriority.defaultHigh.rawValue) // 750
+        bottomConstraint.priority = UILayoutPriority(UILayoutPriority.defaultHigh.rawValue) // 750
+
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+
         titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: Constants.CGFloats.small)
         titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         titleLabel.autoAlignAxis(toSuperviewAxis: .horizontal)
