@@ -11,6 +11,7 @@ class DetailScreenViewController: UIViewController {
     private let titleLabel = UILabel()
     private let photoImageView = UIImageView()
     private let commentsTableView = UITableView()
+    private let photoImageHeight: CGFloat = 250
     
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private let refreshControl = UIRefreshControl()
@@ -41,7 +42,7 @@ class DetailScreenViewController: UIViewController {
         
         // Configure photo title label
         titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.font = Constants.Fonts.largeBold
         
         view.addSubview(titleLabel)
         
@@ -52,23 +53,23 @@ class DetailScreenViewController: UIViewController {
         view.addSubview(photoImageView)
         
         // Constraints for title label
-        titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: 16)
+        titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: Constants.CGFloats.medium)
         titleLabel.autoPinEdge(toSuperviewEdge: .leading)
         titleLabel.autoPinEdge(toSuperviewEdge: .trailing)
         
         // Constraints for photo image view
-        photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 16)
+        photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: Constants.CGFloats.medium)
         photoImageView.autoPinEdge(toSuperviewEdge: .leading)
         photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
-        photoImageView.autoSetDimension(.height, toSize: 250)
-        photoImageView.layer.cornerRadius = 16
+        photoImageView.autoSetDimension(.height, toSize: photoImageHeight)
+        photoImageView.layer.cornerRadius = Constants.CGFloats.medium
         
 //        commentsTableView.backgroundColor = .clear
         
         view.addSubview(commentsTableView)
         
         // Constraints for comments table view
-        commentsTableView.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: 16)
+        commentsTableView.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: Constants.CGFloats.medium)
         commentsTableView.autoPinEdge(toSuperviewEdge: .leading)
         commentsTableView.autoPinEdge(toSuperviewEdge: .trailing)
         commentsTableView.autoPinEdge(toSuperviewSafeArea: .bottom)

@@ -5,7 +5,7 @@ class CommentTableViewCell: UITableViewCell {
     private let nameLabel = UILabel()
     private let emailLabel = UILabel()
     private let bodyLabel = UILabel()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -17,28 +17,28 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        emailLabel.font = UIFont.italicSystemFont(ofSize: 14)
-        bodyLabel.font = UIFont.systemFont(ofSize: 14)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: Constants.CGFloats.medium)
+        emailLabel.font = Constants.Fonts.mediumItalic
+        bodyLabel.font = Constants.Fonts.medium
         bodyLabel.numberOfLines = 0
         
         contentView.addSubview(nameLabel)
         contentView.addSubview(emailLabel)
         contentView.addSubview(bodyLabel)
         
-        nameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 8)
-        nameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        nameLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
+        nameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: Constants.CGFloats.small)
+        nameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+        nameLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         
-        emailLabel.autoPinEdge(.top, to: .bottom, of: nameLabel, withOffset: 4)
-        emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
+        emailLabel.autoPinEdge(.top, to: .bottom, of: nameLabel, withOffset: Constants.CGFloats.xsmall)
+        emailLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+        emailLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         emailLabel.textColor = .gray
         
-        bodyLabel.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: 4)
-        bodyLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        bodyLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
-        bodyLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: 8)
+        bodyLabel.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: Constants.CGFloats.xsmall)
+        bodyLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+        bodyLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
+        bodyLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: Constants.CGFloats.small)
     }
     
     func configure(with comment: Comment) {

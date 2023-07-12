@@ -6,6 +6,8 @@ class MainScreenTableViewCell: UITableViewCell {
     let thumbnailImageView = UIImageView()
     let titleLabel = UILabel()
     
+    private let imageSize = CGSize(width: 80, height: 80)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -19,19 +21,19 @@ class MainScreenTableViewCell: UITableViewCell {
     private func setupUI() {
         thumbnailImageView.contentMode = .scaleAspectFit
         thumbnailImageView.clipsToBounds = true
-        thumbnailImageView.layer.cornerRadius = 8
+        thumbnailImageView.layer.cornerRadius = Constants.CGFloats.small
         titleLabel.numberOfLines = 0
         
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
         
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .top, withInset: 8)
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        thumbnailImageView.autoSetDimensions(to: CGSize(width: 80, height: 80))
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 8)
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .top, withInset: Constants.CGFloats.small)
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+        thumbnailImageView.autoSetDimensions(to: imageSize)
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .bottom, withInset: Constants.CGFloats.small)
         
-        titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: 8)
-        titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
+        titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: Constants.CGFloats.small)
+        titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         titleLabel.autoAlignAxis(toSuperviewAxis: .horizontal)
     }
 }
