@@ -17,6 +17,7 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
+        self.selectionStyle = .none
         nameLabel.font = UIFont.boldSystemFont(ofSize: Constants.CGFloats.medium)
         emailLabel.font = Constants.Fonts.mediumItalic
         bodyLabel.font = Constants.Fonts.medium

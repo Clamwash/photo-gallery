@@ -40,32 +40,26 @@ class DetailScreenViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        // Configure photo title label
         titleLabel.textAlignment = .center
         titleLabel.font = Constants.Fonts.largeBold
         
         view.addSubview(titleLabel)
         
-        // Configure photo image view
         photoImageView.contentMode = .scaleAspectFit
         photoImageView.backgroundColor = .lightGray
         
         view.addSubview(photoImageView)
         
-        // Constraints for title label
         titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: Constants.CGFloats.medium)
-        titleLabel.autoPinEdge(toSuperviewEdge: .leading)
-        titleLabel.autoPinEdge(toSuperviewEdge: .trailing)
+        titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+        titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         
-        // Constraints for photo image view
         photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: Constants.CGFloats.medium)
         photoImageView.autoPinEdge(toSuperviewEdge: .leading)
         photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
         photoImageView.autoSetDimension(.height, toSize: photoImageHeight)
         photoImageView.layer.cornerRadius = Constants.CGFloats.medium
-        
-//        commentsTableView.backgroundColor = .clear
-        
+                
         view.addSubview(commentsTableView)
         
         // Constraints for comments table view
