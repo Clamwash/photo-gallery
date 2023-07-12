@@ -59,8 +59,6 @@ class MainScreenViewController: UIViewController {
                 if let url = URL(string: photo.thumbnailUrl) {
                     cell.thumbnailImageView.af.setImage(withURL: url)
                 }
-
-                cell.contentView.heightAnchor.constraint(equalToConstant: 100).isActive = true
             }
             .disposed(by: disposeBag)
         

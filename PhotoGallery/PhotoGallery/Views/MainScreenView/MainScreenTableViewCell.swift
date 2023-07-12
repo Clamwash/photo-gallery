@@ -20,17 +20,18 @@ class MainScreenTableViewCell: UITableViewCell {
         thumbnailImageView.contentMode = .scaleAspectFit
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.layer.cornerRadius = 8
+        titleLabel.numberOfLines = 0
         
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
         
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .top, withInset: 8)
         thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        thumbnailImageView.autoAlignAxis(toSuperviewAxis: .horizontal)
         thumbnailImageView.autoSetDimensions(to: CGSize(width: 80, height: 80))
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 8)
         
         titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: 8)
         titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
         titleLabel.autoAlignAxis(toSuperviewAxis: .horizontal)
-        titleLabel.numberOfLines = 0
     }
 }
