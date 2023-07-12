@@ -35,6 +35,7 @@ class DetailScreenViewController: UIViewController {
     private func setupUI() {
         commentsTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
         titleLabel.text = viewModel.photo.title
+        titleLabel.numberOfLines = 0
         
         view.backgroundColor = .white
         
@@ -59,7 +60,8 @@ class DetailScreenViewController: UIViewController {
         photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 16)
         photoImageView.autoPinEdge(toSuperviewEdge: .leading)
         photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
-        photoImageView.autoSetDimension(.height, toSize: 200)
+        photoImageView.autoSetDimension(.height, toSize: 250)
+        photoImageView.layer.cornerRadius = 16
         
 //        commentsTableView.backgroundColor = .clear
         
