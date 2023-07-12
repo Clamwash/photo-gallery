@@ -50,6 +50,7 @@ class MainScreenViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.photos
+            .map { $0.sorted { $0.title < $1.title } }
             .bind(to: tableView.rx.items(cellIdentifier: "Cell")) { index, photo, cell in
                 guard let cell = cell as? MainScreenTableViewCell else { return }
                 
