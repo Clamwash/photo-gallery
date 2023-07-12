@@ -25,10 +25,11 @@ class MainScreenTableViewCell: UITableViewCell {
         
         thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
         thumbnailImageView.autoAlignAxis(toSuperviewAxis: .horizontal)
-        thumbnailImageView.autoSetDimensions(to: CGSize(width: 40, height: 40))
+        thumbnailImageView.autoSetDimensions(to: CGSize(width: 80, height: 80))
         
         titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: 8)
         titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
         titleLabel.autoAlignAxis(toSuperviewAxis: .horizontal)
+        titleLabel.numberOfLines = 0
     }
 }
