@@ -19,6 +19,7 @@ class MainScreenTableViewCell: UITableViewCell {
     private func setupUI() {
         thumbnailImageView.contentMode = .scaleAspectFit
         thumbnailImageView.clipsToBounds = true
+        thumbnailImageView.layer.cornerRadius = 8
         
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
