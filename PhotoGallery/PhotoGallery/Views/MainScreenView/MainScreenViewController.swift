@@ -36,7 +36,6 @@ class MainScreenViewController: UIViewController {
     
     private func setupUI() {
         tableView.frame = view.bounds
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(MainScreenTableViewCell.self, forCellReuseIdentifier: "Cell")
 
         view.addSubview(tableView)
@@ -50,6 +49,7 @@ class MainScreenViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.photos
+            .map { $0.sorted { $0.title < $1.title } }
             .bind(to: tableView.rx.items(cellIdentifier: "Cell")) { index, photo, cell in
                 guard let cell = cell as? MainScreenTableViewCell else { return }
                 

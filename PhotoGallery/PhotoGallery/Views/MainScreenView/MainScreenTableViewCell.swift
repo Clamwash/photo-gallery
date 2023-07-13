@@ -6,6 +6,8 @@ class MainScreenTableViewCell: UITableViewCell {
     let thumbnailImageView = UIImageView()
     let titleLabel = UILabel()
     
+    private let imageSize = CGSize(width: 80, height: 80)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -19,16 +21,24 @@ class MainScreenTableViewCell: UITableViewCell {
     private func setupUI() {
         thumbnailImageView.contentMode = .scaleAspectFit
         thumbnailImageView.clipsToBounds = true
-        
+        thumbnailImageView.layer.cornerRadius = Constants.CGFloats.small
+        titleLabel.numberOfLines = 0
+
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
-        
-        thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        thumbnailImageView.autoAlignAxis(toSuperviewAxis: .horizontal)
-        thumbnailImageView.autoSetDimensions(to: CGSize(width: 40, height: 40))
-        
-        titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: 8)
-        titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
+
+        thumbnailImageView.autoSetDimensions(to: imageSize)
+
+        let topConstraint = thumbnailImageView.autoPinEdge(toSuperviewEdge: .top, withInset: Constants.CGFloats.small)
+        let bottomConstraint = thumbnailImageView.autoPinEdge(toSuperviewEdge: .bottom, withInset: Constants.CGFloats.small)
+
+        topConstraint.priority = UILayoutPriority(UILayoutPriority.defaultHigh.rawValue) // 750
+        bottomConstraint.priority = UILayoutPriority(UILayoutPriority.defaultHigh.rawValue) // 750
+
+        thumbnailImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+
+        titleLabel.autoPinEdge(.leading, to: .trailing, of: thumbnailImageView, withOffset: Constants.CGFloats.small)
+        titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         titleLabel.autoAlignAxis(toSuperviewAxis: .horizontal)
     }
 }

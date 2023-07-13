@@ -11,6 +11,7 @@ class DetailScreenViewController: UIViewController {
     private let titleLabel = UILabel()
     private let photoImageView = UIImageView()
     private let commentsTableView = UITableView()
+    private let photoImageHeight: CGFloat = 250
     
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private let refreshControl = UIRefreshControl()
@@ -33,40 +34,36 @@ class DetailScreenViewController: UIViewController {
     }
     
     private func setupUI() {
-        commentsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CommentCell")
+        commentsTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
         titleLabel.text = viewModel.photo.title
+        titleLabel.numberOfLines = 0
         
         view.backgroundColor = .white
         
-        // Configure photo title label
         titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.font = Constants.Fonts.largeBold
         
         view.addSubview(titleLabel)
         
-        // Configure photo image view
         photoImageView.contentMode = .scaleAspectFit
         photoImageView.backgroundColor = .lightGray
         
         view.addSubview(photoImageView)
         
-        // Constraints for title label
-        titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: 16)
-        titleLabel.autoPinEdge(toSuperviewEdge: .leading)
-        titleLabel.autoPinEdge(toSuperviewEdge: .trailing)
+        titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: Constants.CGFloats.medium)
+        titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
+        titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: Constants.CGFloats.medium)
         
-        // Constraints for photo image view
-        photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 16)
+        photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: Constants.CGFloats.medium)
         photoImageView.autoPinEdge(toSuperviewEdge: .leading)
         photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
-        photoImageView.autoSetDimension(.height, toSize: 200)
-        
-//        commentsTableView.backgroundColor = .clear
-        
+        photoImageView.autoSetDimension(.height, toSize: photoImageHeight)
+        photoImageView.layer.cornerRadius = Constants.CGFloats.medium
+                
         view.addSubview(commentsTableView)
         
         // Constraints for comments table view
-        commentsTableView.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: 16)
+        commentsTableView.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: Constants.CGFloats.medium)
         commentsTableView.autoPinEdge(toSuperviewEdge: .leading)
         commentsTableView.autoPinEdge(toSuperviewEdge: .trailing)
         commentsTableView.autoPinEdge(toSuperviewSafeArea: .bottom)
@@ -81,8 +78,9 @@ class DetailScreenViewController: UIViewController {
     private func bindViewModel() {
         viewModel.comments
             .map { Array($0.prefix(20)) }
-            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { _, comment, cell in
-                cell.textLabel?.text = comment.body
+            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { index, comment, cell in
+                guard let cell = cell as? CommentTableViewCell else { return }
+                cell.configure(with: comment)
             }
             .disposed(by: disposeBag)
 
