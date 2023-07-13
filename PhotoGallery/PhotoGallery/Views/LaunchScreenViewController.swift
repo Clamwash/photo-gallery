@@ -11,7 +11,7 @@ class LaunchScreenViewController: UIViewController {
         view.backgroundColor = .black
 
         logoImageView = UIImageView.newAutoLayout()
-        logoImageView.image = UIImage(named: "app-icon-move-01")
+        logoImageView.image = UIImage(named: "App-icon-move-01")
         logoImageView.contentMode = .scaleAspectFit
         view.addSubview(logoImageView)
 
