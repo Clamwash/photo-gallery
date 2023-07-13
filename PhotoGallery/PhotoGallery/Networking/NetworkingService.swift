@@ -1,7 +1,12 @@
 import Foundation
 import Alamofire
 
-class NetworkingService {
+protocol NetworkingProtocol {
+    func fetchPhotos(completion: @escaping (Result<[Photo], Error>) -> Void)
+    func fetchComments(for photoId: Int, completion: @escaping (Result<[Comment], Error>) -> Void)
+}
+
+class NetworkingService: NetworkingProtocol {
     static let shared = NetworkingService()
         
     func fetchPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {

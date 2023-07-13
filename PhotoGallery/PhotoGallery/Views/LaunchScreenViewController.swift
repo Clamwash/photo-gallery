@@ -26,6 +26,6 @@ class LaunchScreenViewController: UIViewController {
         logoImageView.autoSetDimensions(to: CGSize(width: 350, height: 350))
 
         titleLabel.autoAlignAxis(toSuperviewAxis: .vertical)
-        titleLabel.autoPinEdge(.top, to: .bottom, of: logoImageView, withOffset: 10)
+        titleLabel.autoPinEdge(.top, to: .bottom, of: logoImageView, withOffset: Constants.CGFloats.small)
     }
 }
