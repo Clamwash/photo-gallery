@@ -106,7 +106,6 @@
 			children = (
 				6A1C563E2A556E22005EA8E6 /* PhotoGallery */,
 				6A2D7ECE2A600041003A5C8B /* PhotoGalleryTests */,
-				6A2D7EEA2A6003D0003A5C8B /* NetworkingServiceTests.swift */,
 				6A2D7EDB2A600061003A5C8B /* PhotoGalleryUITests */,
 				6A1C563D2A556E22005EA8E6 /* Products */,
 				D30AA235FA88FFF726516EAC /* Pods */,
@@ -142,6 +141,7 @@
 		6A2D7ECE2A600041003A5C8B /* PhotoGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				6A2D7EEA2A6003D0003A5C8B /* NetworkingServiceTests.swift */,
 				6A2D7EE72A6002EE003A5C8B /* Mocks */,
 			);
 			path = PhotoGalleryTests;
