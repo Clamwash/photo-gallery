@@ -4,7 +4,6 @@ import RxCocoa
 
 class MainScreenViewModel {
     private let networkingService: NetworkingService
-    
     private let photosSubject = BehaviorSubject<[Photo]>(value: [])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     private let alertRelay = PublishRelay<String>()
@@ -32,10 +31,9 @@ class MainScreenViewModel {
             switch result {
             case .success(let photos):
                 self?.photosSubject.onNext(photos)
-            case .failure(let error):
-                let errorMessage = "Failed to fetch photos. Please check your internet connection."
+            case .failure(_):
+                let errorMessage = Constants.Strings.MainScreen.errorText
                 self?.alertRelay.accept(errorMessage)
-                print("Error fetching photos: \(error)")
             }
             
             self?.isLoadingRelay.accept(false)
