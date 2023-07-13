@@ -37,6 +37,7 @@ class DetailScreenViewController: UIViewController {
         commentsTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
         titleLabel.text = viewModel.photo.title
         titleLabel.numberOfLines = 0
+        titleLabel.accessibilityIdentifier = Constants.Strings.DetailScreen.accessibilityIdentifier
         
         view.backgroundColor = .white
         

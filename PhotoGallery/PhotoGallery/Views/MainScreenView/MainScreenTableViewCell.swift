@@ -23,6 +23,8 @@ class MainScreenTableViewCell: UITableViewCell {
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.layer.cornerRadius = Constants.CGFloats.small
         titleLabel.numberOfLines = 0
+        titleLabel.accessibilityIdentifier = Constants.Strings.MainScreen.accessibilityIdentifier
+
 
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
