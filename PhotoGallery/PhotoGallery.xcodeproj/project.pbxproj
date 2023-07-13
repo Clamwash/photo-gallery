@@ -127,12 +127,12 @@
 		6A1C563E2A556E22005EA8E6 /* PhotoGallery */ = {
 			isa = PBXGroup;
 			children = (
-				6A3A53DB2A5EB5900084EB1E /* Utilities */,
+				6A1C563F2A556E22005EA8E6 /* AppDelegate.swift */,
 				6A818C662A56A77500561F01 /* Resources */,
-				6A818C642A56A74D00561F01 /* ViewModel */,
+				6A3A53DB2A5EB5900084EB1E /* Utilities */,
 				6A818C622A56A73A00561F01 /* Model */,
 				6A818C612A56A71C00561F01 /* Networking */,
-				6A1C563F2A556E22005EA8E6 /* AppDelegate.swift */,
+				6A818C642A56A74D00561F01 /* ViewModel */,
 				6A818C6D2A56B8B900561F01 /* Views */,
 				6A1C564D2A556E22005EA8E6 /* Info.plist */,
 			);
