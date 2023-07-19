@@ -4,7 +4,7 @@ import RxCocoa
 
 class DetailScreenViewModel {
     let photo: Photo
-    private let networkingService: NetworkingService
+    private let networkingService: NetworkingProtocol
     
     private let commentsSubject = PublishSubject<[Comment]>()
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
@@ -17,7 +17,7 @@ class DetailScreenViewModel {
         return isLoadingRelay.asObservable()
     }
     
-    init(photo: Photo, networkingService: NetworkingService) {
+    init(photo: Photo, networkingService: NetworkingProtocol) {
         self.photo = photo
         self.networkingService = networkingService
         

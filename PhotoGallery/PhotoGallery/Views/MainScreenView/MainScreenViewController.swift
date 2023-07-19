@@ -7,14 +7,15 @@ import AlamofireImage
 class MainScreenViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: MainScreenViewModel
-    private let networkingService: NetworkingService
+    private let networkingService: NetworkingProtocol
     
     private let tableView = UITableView()
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private let refreshControl = UIRefreshControl()
     
-    init() {
-        self.networkingService = NetworkingService.shared
+    init(networkingService: NetworkingProtocol) {
+        self.networkingService = networkingService
+        
         let viewModel = MainScreenViewModel(networkingService: networkingService)
         self.viewModel = viewModel
         
@@ -35,11 +36,10 @@ class MainScreenViewController: UIViewController {
     }
     
     private func setupUI() {
-        tableView.frame = view.bounds
         tableView.register(MainScreenTableViewCell.self, forCellReuseIdentifier: "Cell")
 
         view.addSubview(tableView)
-        
+        tableView.autoPinEdgesToSuperviewEdges()
         activityIndicatorView.hidesWhenStopped = true
         view.addSubview(activityIndicatorView)
         activityIndicatorView.autoCenterInSuperview()

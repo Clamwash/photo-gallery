@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 
 class MainScreenViewModel {
-    private let networkingService: NetworkingService
+    private let networkingService: NetworkingProtocol
     private let photosSubject = BehaviorSubject<[Photo]>(value: [])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     private let alertRelay = PublishRelay<String>()
@@ -20,7 +20,7 @@ class MainScreenViewModel {
         return alertRelay.asObservable()
     }
     
-    init(networkingService: NetworkingService) {
+    init(networkingService: NetworkingProtocol) {
         self.networkingService = networkingService
     }
     
