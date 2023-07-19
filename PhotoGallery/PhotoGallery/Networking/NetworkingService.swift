@@ -7,11 +7,11 @@ protocol NetworkingProtocol {
 }
 
 class NetworkingService: NetworkingProtocol {
-    static let shared = NetworkingService()
-        
+    static let shared = NetworkingService()        
+    
     func fetchPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
         let urlString = "https://jsonplaceholder.typicode.com/photos"
-        
+
         AF.request(urlString).responseData { response in
             switch response.result {
             case .success(let data):
