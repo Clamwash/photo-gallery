@@ -10,8 +10,14 @@ class DetailScreenViewController: UIViewController {
     
     private let titleLabel = UILabel()
     private let photoImageView = UIImageView()
+    private let descriptionLabel = UILabel()
+    private var latestBookDetail: BookDetail?
     private let commentsTableView = UITableView()
+    private let headerView = UIView()
+
+    
     private let photoImageHeight: CGFloat = 250
+    private let headerViewHeight: CGFloat = 300
     
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private let refreshControl = UIRefreshControl()
@@ -33,23 +39,32 @@ class DetailScreenViewController: UIViewController {
         loadPhoto()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        commentsTableView.tableHeaderView = headerView
+    }
+    
     private func setupUI() {
+        commentsTableView.register(DescriptionTableViewCell.self, forCellReuseIdentifier: "DescriptionTableViewCell")
         commentsTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
-        titleLabel.text = viewModel.photo.title
+        
+        titleLabel.text = viewModel.book.title
         titleLabel.numberOfLines = 0
         titleLabel.accessibilityIdentifier = Constants.Strings.DetailScreen.accessibilityIdentifier
-        
-        view.backgroundColor = .white
-        
         titleLabel.textAlignment = .center
         titleLabel.font = Constants.Fonts.largeBold
         
-        view.addSubview(titleLabel)
-        
+        view.backgroundColor = .white
+                
         photoImageView.contentMode = .scaleAspectFit
         photoImageView.backgroundColor = .lightGray
         
-        view.addSubview(photoImageView)
+        photoImageView.autoSetDimension(.height, toSize: photoImageHeight)
+        photoImageView.layer.cornerRadius = Constants.CGFloats.medium
+        
+        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: headerViewHeight)
+        headerView.addSubview(titleLabel)
+        headerView.addSubview(photoImageView)
         
         titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: Constants.CGFloats.medium)
         titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: Constants.CGFloats.medium)
@@ -58,36 +73,66 @@ class DetailScreenViewController: UIViewController {
         photoImageView.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: Constants.CGFloats.medium)
         photoImageView.autoPinEdge(toSuperviewEdge: .leading)
         photoImageView.autoPinEdge(toSuperviewEdge: .trailing)
-        photoImageView.autoSetDimension(.height, toSize: photoImageHeight)
-        photoImageView.layer.cornerRadius = Constants.CGFloats.medium
-                
+        photoImageView.autoPinEdge(toSuperviewEdge: .bottom)
+        
+        
         view.addSubview(commentsTableView)
         
-        // Constraints for comments table view
-        commentsTableView.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: Constants.CGFloats.medium)
-        commentsTableView.autoPinEdge(toSuperviewEdge: .leading)
-        commentsTableView.autoPinEdge(toSuperviewEdge: .trailing)
-        commentsTableView.autoPinEdge(toSuperviewSafeArea: .bottom)
-                
+        commentsTableView.autoPinEdgesToSuperviewEdges()
+        
+        headerView.layoutIfNeeded()
+//        commentsTableView.tableHeaderView = headerView
+
         activityIndicatorView.hidesWhenStopped = true
         view.addSubview(activityIndicatorView)
+        
         activityIndicatorView.autoCenterInSuperview()
         
         commentsTableView.refreshControl = refreshControl
     }
+
+
+
     
     private func bindViewModel() {
-        viewModel.comments
-            .map { Array($0.prefix(20)) }
-            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { index, comment, cell in
-                guard let cell = cell as? CommentTableViewCell else { return }
-                cell.configure(with: comment)
+//        viewModel.booksByTheAuthor
+//            .bind(to: commentsTableView.rx.items(cellIdentifier: "CommentCell")) { index, book, cell in
+//                guard let cell = cell as? CommentTableViewCell else { return }
+//                cell.configure(with: book)
+//            }
+//            .disposed(by: disposeBag)
+        
+        viewModel.booksByTheAuthor.bind(to: commentsTableView.rx.items) { (tableView, index, book) in
+            let cellIdentifier = index == 0 ? "DescriptionTableViewCell" : "CommentCell"
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: IndexPath(row: index, section: 0))
+            
+            if index == 0, let descriptionViewCell = cell as? DescriptionTableViewCell {
+                let descriptionText = self.latestBookDetail?.description?.compactMap { $0.value }.joined(separator: "\n")
+                
+                descriptionViewCell.descriptionLabel.text = descriptionText
+                
+                return descriptionViewCell
             }
+            
+            if let tableViewCell = cell as? CommentTableViewCell {
+                tableViewCell.configure(with: book)
+            }
+            return cell
+        }
+        .disposed(by: disposeBag)
+        
+        viewModel.bookDetails
+            .subscribe(onNext: { [weak self] bookDetail in
+                self?.latestBookDetail = bookDetail
+            })
             .disposed(by: disposeBag)
+        
+        
 
         refreshControl.rx.controlEvent(.valueChanged)
             .subscribe(onNext: { [weak self] in
-                self?.viewModel.fetchComments()
+                self?.viewModel.fetchBooksByTheAuthor()
             })
             .disposed(by: disposeBag)
         
@@ -103,10 +148,12 @@ class DetailScreenViewController: UIViewController {
     }
     
     private func loadPhoto() {
-        let photoUrl = viewModel.photo.url
-        
-        if let url = URL(string: photoUrl) {
-            self.photoImageView.af.setImage(withURL: url)
+        if let bookCoverId = viewModel.book.coverEditionKey {
+            let bookCoverUrl = "https://covers.openlibrary.org/b/olid/\(bookCoverId)-M.jpg"
+            
+            if let url = URL(string: bookCoverUrl) {
+                self.photoImageView.af.setImage(withURL: url)
+            }
         }
     }
 }

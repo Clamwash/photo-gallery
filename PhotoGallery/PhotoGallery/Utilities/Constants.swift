@@ -20,7 +20,7 @@ extension Constants {
         struct LaunchScreen {
             static let appIconTitle = "App-icon-move-01"
             
-            static let title = "Photo gallery"
+            static let title = "Open Library"
         }
         
         struct MainScreen {

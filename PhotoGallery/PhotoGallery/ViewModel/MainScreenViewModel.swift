@@ -4,12 +4,12 @@ import RxCocoa
 
 class MainScreenViewModel {
     private let networkingService: NetworkingProtocol
-    private let photosSubject = BehaviorSubject<[Photo]>(value: [])
+    private let booksSubject = BehaviorSubject<[Book]>(value: [])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     private let alertRelay = PublishRelay<String>()
 
-    var photos: Observable<[Photo]> {
-        return photosSubject.asObservable()
+    var books: Observable<[Book]> {
+        return booksSubject.asObservable()
     }
     
     var isLoading: Observable<Bool> {
@@ -24,13 +24,13 @@ class MainScreenViewModel {
         self.networkingService = networkingService
     }
     
-    func fetchPhotos() {
+    func fetchBooks() {
         isLoadingRelay.accept(true)
         
-        networkingService.fetchPhotos { [weak self] result in
+        networkingService.fetchBooks { [weak self] result in
             switch result {
-            case .success(let photos):
-                self?.photosSubject.onNext(photos)
+            case .success(let books):
+                self?.booksSubject.onNext(books.works ?? [])
             case .failure(_):
                 let errorMessage = Constants.Strings.MainScreen.errorText
                 self?.alertRelay.accept(errorMessage)

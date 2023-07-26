@@ -3,38 +3,56 @@ import RxSwift
 import RxCocoa
 
 class DetailScreenViewModel {
-    let photo: Photo
+    let book: Book
     private let networkingService: NetworkingProtocol
     
-    private let commentsSubject = PublishSubject<[Comment]>()
+    private let booksByTheAuthorSubject = PublishSubject<[Book]>()
+    private let bookDetailsSubject = PublishSubject<BookDetail>()
+
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     
-    var comments: Observable<[Comment]> {
-        return commentsSubject.asObservable()
+    var booksByTheAuthor: Observable<[Book]> {
+        return booksByTheAuthorSubject.asObservable()
+    }
+    
+    var bookDetails: Observable<BookDetail> {
+        return bookDetailsSubject.asObservable()
     }
     
     var isLoading: Observable<Bool> {
         return isLoadingRelay.asObservable()
     }
     
-    init(photo: Photo, networkingService: NetworkingProtocol) {
-        self.photo = photo
+    init(book: Book, networkingService: NetworkingProtocol) {
+        self.book = book
         self.networkingService = networkingService
         
-        fetchComments()
+        fetchBooksByTheAuthor()
+        fetchBookDetails()
     }
     
-    func fetchComments() {
+    func fetchBookDetails() {
+        networkingService.fetchBookDetails(for: book.key ?? "") { [weak self] result in
+            switch result {
+            case .success(let bookDetail):
+                self?.bookDetailsSubject.onNext(bookDetail)
+            case .failure(let error):
+                print("Error fetching book details: \(error)")
+            }
+        }
+    }
+    
+    func fetchBooksByTheAuthor() {
         isLoadingRelay.accept(true)
 
-        networkingService.fetchComments(for: photo.id) { [weak self] result in
+        networkingService.fetchBooksByTheAuthor(for: book.authorName?.first) { [weak self] result in
             switch result {
-            case .success(let comments):
-                self?.commentsSubject.onNext(comments)
+            case .success(let books):
+                self?.booksByTheAuthorSubject.onNext(books.docs ?? [])
             case .failure(let error):
                 print("Error fetching comments: \(error)")
             }
-            
+
             self?.isLoadingRelay.accept(false)
         }
     }
