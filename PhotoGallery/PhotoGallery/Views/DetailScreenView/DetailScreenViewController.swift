@@ -10,7 +10,6 @@ class DetailScreenViewController: UIViewController {
     
     private let titleLabel = UILabel()
     private let photoImageView = UIImageView()
-    private let descriptionLabel = UILabel()
     private var latestBookDetail: BookDetail?
     private let commentsTableView = UITableView()
     private let headerView = UIView()
@@ -47,7 +46,7 @@ class DetailScreenViewController: UIViewController {
     private func setupUI() {
         commentsTableView.register(DescriptionTableViewCell.self, forCellReuseIdentifier: "DescriptionTableViewCell")
         commentsTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "CommentCell")
-        
+
         titleLabel.text = viewModel.book.title
         titleLabel.numberOfLines = 0
         titleLabel.accessibilityIdentifier = Constants.Strings.DetailScreen.accessibilityIdentifier
@@ -81,7 +80,6 @@ class DetailScreenViewController: UIViewController {
         commentsTableView.autoPinEdgesToSuperviewEdges()
         
         headerView.layoutIfNeeded()
-//        commentsTableView.tableHeaderView = headerView
 
         activityIndicatorView.hidesWhenStopped = true
         view.addSubview(activityIndicatorView)
@@ -128,7 +126,17 @@ class DetailScreenViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        
+        commentsTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let cell = self?.commentsTableView.cellForRow(at: indexPath) as? DescriptionTableViewCell else { return }
+                cell.descriptionLabel.numberOfLines = cell.descriptionLabel.numberOfLines == 0 ? 4 : 0
+                
+//                self?.commentsTableView.rowHeight = UITableView.automaticDimension
+
+                self?.commentsTableView.beginUpdates()
+                      self?.commentsTableView.endUpdates()
+            })
+            .disposed(by: disposeBag)
 
         refreshControl.rx.controlEvent(.valueChanged)
             .subscribe(onNext: { [weak self] in

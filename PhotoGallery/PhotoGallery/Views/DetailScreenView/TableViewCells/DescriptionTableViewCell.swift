@@ -14,8 +14,8 @@ class DescriptionTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
-        descriptionLabel.text = "First Cell"
-        descriptionLabel.numberOfLines = 0
+        self.selectionStyle = .none
+        descriptionLabel.numberOfLines = 4
         
         contentView.addSubview(descriptionLabel)
         
@@ -24,9 +24,5 @@ class DescriptionTableViewCell: UITableViewCell {
         descriptionLabel.autoPinEdge(toSuperviewEdge: .right, withInset: Constants.CGFloats.medium)
         descriptionLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: Constants.CGFloats.medium)
     }
-    
-//    func configure(with book: Book) {
-//        descriptionLabel.text = book
-//    }
 }
 
