@@ -7,14 +7,17 @@ import AlamofireImage
 class MainScreenViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: MainScreenViewModel
-    private let networkingService: NetworkingService
+    private let networkingService: NetworkingProtocol
     
     private let tableView = UITableView()
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private let refreshControl = UIRefreshControl()
     
-    init() {
-        self.networkingService = NetworkingService.shared
+    private let imageView = UIImageView()
+    
+    init(networkingService: NetworkingProtocol) {
+        self.networkingService = networkingService
+        
         let viewModel = MainScreenViewModel(networkingService: networkingService)
         self.viewModel = viewModel
         
@@ -31,15 +34,14 @@ class MainScreenViewController: UIViewController {
         setupUI()
         bindViewModel()
         
-        viewModel.fetchPhotos()
+        viewModel.fetchBooks()
     }
     
     private func setupUI() {
-        tableView.frame = view.bounds
         tableView.register(MainScreenTableViewCell.self, forCellReuseIdentifier: "Cell")
 
         view.addSubview(tableView)
-        
+        tableView.autoPinEdgesToSuperviewEdges()
         activityIndicatorView.hidesWhenStopped = true
         view.addSubview(activityIndicatorView)
         activityIndicatorView.autoCenterInSuperview()
@@ -48,22 +50,26 @@ class MainScreenViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.photos
-            .map { $0.sorted { $0.title < $1.title } }
-            .bind(to: tableView.rx.items(cellIdentifier: "Cell")) { index, photo, cell in
+        viewModel.books
+            .bind(to: tableView.rx.items(cellIdentifier: "Cell")) { index, book, cell in
                 guard let cell = cell as? MainScreenTableViewCell else { return }
                 
-                cell.titleLabel.text = photo.title
+                cell.titleLabel.text = book.title
                 
-                if let url = URL(string: photo.thumbnailUrl) {
-                    cell.thumbnailImageView.af.setImage(withURL: url)
+                if let bookCoverId = book.coverEditionKey {
+                    let bookCoverUrl = "https://covers.openlibrary.org/b/olid/\(bookCoverId)-M.jpg"
+
+                    
+                    if let url = URL(string: bookCoverUrl) {
+                        cell.thumbnailImageView.af.setImage(withURL: url)
+                    }
                 }
             }
             .disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(Photo.self)
-            .subscribe(onNext: { [weak self] photo in
-                self?.navigateToDetailScreen(photo: photo)
+        tableView.rx.modelSelected(Book.self)
+            .subscribe(onNext: { [weak self] book in
+                self?.navigateToDetailScreen(book: book)
             })
             .disposed(by: disposeBag)
         
@@ -73,7 +79,7 @@ class MainScreenViewController: UIViewController {
         
         refreshControl.rx.controlEvent(.valueChanged)
             .subscribe(onNext: { [weak self] in
-                self?.viewModel.fetchPhotos()
+                self?.viewModel.fetchBooks()
             })
             .disposed(by: disposeBag)
         
@@ -94,8 +100,8 @@ class MainScreenViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func navigateToDetailScreen(photo: Photo) {
-        let detailViewModel = DetailScreenViewModel(photo: photo, networkingService: networkingService)
+    private func navigateToDetailScreen(book: Book) {
+        let detailViewModel = DetailScreenViewModel(book: book, networkingService: networkingService)
         let detailViewController = DetailScreenViewController(viewModel: detailViewModel)
         
         navigationController?.pushViewController(detailViewController, animated: true)
